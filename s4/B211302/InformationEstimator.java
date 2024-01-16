@@ -100,6 +100,7 @@ public class InformationEstimator implements InformationEstimatorInterface {
                 }
                 // System.out.print("("+start+","+end+")");
                 myFrequencer.setTarget(subBytes(myTarget, start, end));
+		int freq = myFrequencer.frequency();
                 value1 = value1 + f(myFrequencer.frequency());
 		// it should  -->   value1 = value1 + f(myFrequencer.subByteFrequency(start, end)
 		// note that subByteFrequency is not work for B211302 version.
@@ -108,7 +109,7 @@ public class InformationEstimator implements InformationEstimatorInterface {
 			break;
 		}
 		if(freq == 0) return (double) 0.0;
-		value1 = value1 + iq(freq);
+		value1 = value1 + f(freq);
 		start = end;
 	    }
 	    // System.out.println(" "+ value1);
