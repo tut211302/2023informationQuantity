@@ -104,7 +104,6 @@ public class InformationEstimator implements InformationEstimatorInterface {
 		
 		// it should  -->   value1 = value1 + f(myFrequencer.subByteFrequency(start, end)
 		// note that subByteFrequency is not work for B211302 version.
-		    
 		if(freq == 0) {
 		    value1 = Double.MAX_VALUE;
 		    break;
@@ -114,8 +113,7 @@ public class InformationEstimator implements InformationEstimatorInterface {
 		start = end;
 	    }
             // System.out.println(" "+ value1);
-
-            // Get the minimal value in "value"
+	    // Get the minimal value in "value"
             if(value1 < value) value = value1;
         }
 	if(debugMode) { System.out.printf("%10.5f\n", value); }
