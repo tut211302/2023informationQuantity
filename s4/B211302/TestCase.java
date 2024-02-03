@@ -179,12 +179,11 @@ public class TestCase {
 		System.out.println("SubBytefrequency() for AAAB, should return 1, when taget is AAAAB[4:5]. But it returns "+freq);
 		success = false;
 	}
-	catch(Exception e) {
+        catch(Exception e) {
 	    System.out.println("Exception occurred in Frequencer Object");
 	    success = false;
 	}
-
-	try {
+        try {
 	    InformationEstimatorInterface myObject;
 	    double value;
 	    System.out.println("checking InformationEstimator");
