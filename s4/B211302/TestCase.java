@@ -176,10 +176,7 @@ public class TestCase {
 	    myObject.setTarget("AAAAB".getBytes());
 	    freq = myObject.subByteFrequency(4,5);
 	    if(1 != freq) {System.out.println("SubBytefrequency() for AAAB, should return 1, when taget is AAAAB[4:5]. But it returns "+freq);success = false;}
-	catch(Exception e){
-             System.out.println("Exception occurred in Frequencer Object");
-             success = false;
-        }
+catch(Exception e){System.out.println("Exception occurred in Frequencer Object");success = false;}
 try {
         InformationEstimatorInterface myObject;
         double value;
