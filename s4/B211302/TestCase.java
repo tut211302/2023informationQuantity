@@ -202,10 +202,9 @@ try {
 	    value = myObject.estimation();
 	    if((value < 3.9999) || (4.0001 <value)) { System.out.println("IQ for 00 in 3210321001230123 should be 4.0. But it returns "+value); success = false; }
         }
-        catch(Exception e) {
-            System.out.println("Exception occurred in InformationEstimator Object");
-            success = false;
+catch(Exception e) {
+        System.out.println("Exception occurred in InformationEstimator Object");
+        success = false;
 	}
 	if(success) { System.out.println("TestCase OK"); } 
-    }
 }
