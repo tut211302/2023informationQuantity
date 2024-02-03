@@ -33,8 +33,8 @@ public class TestCase {
     static boolean success = true;
 
     public static void main(String[] args) {
-	try{
-        FrequencerInterface  myObject;
+	try {
+	    FrequencerInterface  myObject;
 	    int freq;
 	    System.out.println("checking Frequencer");
 
@@ -175,11 +175,19 @@ public class TestCase {
 	    myObject.setSpace("AAAB".getBytes());
 	    myObject.setTarget("AAAAB".getBytes());
 	    freq = myObject.subByteFrequency(4,5);
-	    if(1 != freq) {System.out.println("SubBytefrequency() for AAAB, should return 1, when taget is AAAAB[4:5]. But it returns "+freq);success = false;}
-catch(Exception e){System.out.println("Exception occurred in Frequencer Object");success = false;}
-try {
-        InformationEstimatorInterface myObject;
-        double value;
+	    if(1 != freq) { 
+		System.out.println("SubBytefrequency() for AAAB, should return 1, when taget is AAAAB[4:5]. But it returns "+freq);
+		success = false;
+	    }
+	}
+	catch(Exception e) {
+	    System.out.println("Exception occurred in Frequencer Object");
+	    success = false;
+	}
+
+	try {
+	    InformationEstimatorInterface myObject;
+	    double value;
 	    System.out.println("checking InformationEstimator");
 	    myObject = new InformationEstimator();
 	    myObject.setSpace("3210321001230123".getBytes());
@@ -195,10 +203,11 @@ try {
 	    myObject.setTarget("00".getBytes());
 	    value = myObject.estimation();
 	    if((value < 3.9999) || (4.0001 <value)) { System.out.println("IQ for 00 in 3210321001230123 should be 4.0. But it returns "+value); success = false; }
-        }
-catch(Exception e) {
-        System.out.println("Exception occurred in InformationEstimator Object");
-        success = false;
 	}
-	if(success) { System.out.println("TestCase OK"); } 
+	catch(Exception e) {
+	    System.out.println("Exception occurred in InformationEstimator Object");
+	    success = false;
+	}
+        if(success) { System.out.println("TestCase OK"); } 
+    }
 }
