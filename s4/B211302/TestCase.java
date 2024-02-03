@@ -33,7 +33,7 @@ public class TestCase {
     static boolean success = true;
 
     public static void main(String[] args) {
-	try {
+	try{
             FrequencerInterface  myObject;
 	    int freq;
 	    System.out.println("checking Frequencer");
@@ -179,7 +179,7 @@ public class TestCase {
 		System.out.println("SubBytefrequency() for AAAB, should return 1, when taget is AAAAB[4:5]. But it returns "+freq);
 		success = false;
             }
-        catch(Exception e) {
+	catch(Exception e){
              System.out.println("Exception occurred in Frequencer Object");
              success = false;
         }
