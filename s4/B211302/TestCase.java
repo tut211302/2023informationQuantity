@@ -34,7 +34,7 @@ public class TestCase {
 
     public static void main(String[] args) {
 	try {
-	    FrequencerInterface  myObject;
+            FrequencerInterface  myObject;
 	    int freq;
 	    System.out.println("checking Frequencer");
 
