@@ -34,7 +34,7 @@ public class TestCase {
 
     public static void main(String[] args) {
 	try{
-            FrequencerInterface  myObject;
+        FrequencerInterface  myObject;
 	    int freq;
 	    System.out.println("checking Frequencer");
 
@@ -178,14 +178,14 @@ public class TestCase {
 	    if(1 != freq) { 
 		System.out.println("SubBytefrequency() for AAAB, should return 1, when taget is AAAAB[4:5]. But it returns "+freq);
 		success = false;
-            }
+        }
 	catch(Exception e){
              System.out.println("Exception occurred in Frequencer Object");
              success = false;
         }
-        try {
-            InformationEstimatorInterface myObject;
-            double value;
+try {
+        InformationEstimatorInterface myObject;
+        double value;
 	    System.out.println("checking InformationEstimator");
 	    myObject = new InformationEstimator();
 	    myObject.setSpace("3210321001230123".getBytes());
