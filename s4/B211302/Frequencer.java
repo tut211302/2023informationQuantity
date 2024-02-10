@@ -108,7 +108,7 @@ public class Frequencer implements FrequencerInterface{
     private int targetCompare(int i, int j, int k) {	
 	for (int offset=0; offset < k-j; ++offset)
 	{
-	    if (i+m >= this.mySpace.length) { return -1; }
+	    if (i+offset >= this.mySpace.length) { return -1; }
 	    if (this.mySpace[i+offset] > this.myTarget[j+offset]) { return 1; }
 	    if (this.mySpace[i+offset] < this.myTarget[j+offset]) { return -1; }
 	}
