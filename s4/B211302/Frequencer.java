@@ -28,13 +28,11 @@ public class Frequencer implements FrequencerInterface{
         }
     }
     
-    //マルチキークイックソート
     private void MultiKeyQuickSort(int left, int right, int depth) {
         if (right - left <= 1) {
             return;
         }
 
-        // Partition
         int pivotIndex = rand.nextInt(right - left) + left;
         int pivotValue = this.suffixArray[pivotIndex];
         int i = left;
@@ -53,7 +51,6 @@ public class Frequencer implements FrequencerInterface{
             }
         }
 
-        // Recursively sort subarrays
         if (left < j) {
             MultiKeyQuickSort(left, j + 1, depth);
         }
@@ -68,7 +65,6 @@ public class Frequencer implements FrequencerInterface{
         this.suffixArray[j] = tmp;
     }
 
-    // 比較関数をマルチキーに変更
     private int suffixCompare(int i, int j, int depth) {
         if (i == j) {
             return 0;
