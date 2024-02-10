@@ -28,65 +28,86 @@ public class Frequencer implements FrequencerInterface{
         }
     }
     
-    //比較
-    private int suffixCompare(int i, int j) {
-	if (i==j){return 0;}
+    //マルチキークイックソート
+    private void MultiKeyQuickSort(int left, int right, int depth) {
+        if (right - left <= 1) {
+            return;
+        }
 
-	int spaceLength = mySpace.length;
-	int offset = 0;
-	while (true){
-	    if(this.mySpace[i+offset] > this.mySpace[j+offset]){ return 1;}
-	    if(this.mySpace[i+offset] < this.mySpace[j+offset]){ return -1;}
-	    ++offset;
-	    if(i+offset >= spaceLength){return -1;}
-	    if(j+offset >= spaceLength){return 1;}
-	}
+        // Partition
+        int pivotIndex = rand.nextInt(right - left) + left;
+        int pivotValue = this.suffixArray[pivotIndex];
+        int i = left;
+        int j = right - 1;
+        while (i <= j) {
+            while (i < right && suffixCompare(this.suffixArray[i], pivotValue, depth) < 0) {
+                i++;
+            }
+            while (j >= left && suffixCompare(this.suffixArray[j], pivotValue, depth) > 0) {
+                j--;
+            }
+            if (i <= j) {
+                Swap(i, j);
+                i++;
+                j--;
+            }
+        }
+
+        // Recursively sort subarrays
+        if (left < j) {
+            MultiKeyQuickSort(left, j + 1, depth);
+        }
+        if (i < right) {
+            MultiKeyQuickSort(i, right, depth);
+        }
     }
 
     private void Swap(int i, int j) {
-	int tmp = this.suffixArray[i];
-	this.suffixArray[i] = this.suffixArray[j];
-	this.suffixArray[j] = tmp;
-    }
-	    
-    private void QuickSort(int left, int right) {
-	if (right-left <= 2)
-	{
-	    if (suffixCompare(this.suffixArray[left], this.suffixArray[left + 1]) == 1) { 
-		Swap(left, left + 1); 
-	    }
-	    return;
-	}
-
-	Swap(left, rand.nextInt(right - left) + left);
-	
-	int i=left;
-	for (int j = left + 1; j < right; ++j)
-	{
-	    if (suffixCompare(this.suffixArray[j], this.suffixArray[left]) == -1)
-	    {
-		++i;
-		Swap(i, j);
-	    }
-	}
-	Swap(left, i);
-	if (i - left > 1) { QuickSort(left, i); }
-	if (right - i > 1) { QuickSort(i, right); }
-	
+        int tmp = this.suffixArray[i];
+        this.suffixArray[i] = this.suffixArray[j];
+        this.suffixArray[j] = tmp;
     }
 
-    public void setSpace(byte []space) {
-        
-        mySpace = space; if(mySpace.length>0) spaceReady = true;
-       
-        suffixArray = new int[space.length];
-        
-        for(int i = 0; i< space.length; i++) {
-            suffixArray[i] = i; 
+    // 比較関数をマルチキーに変更
+    private int suffixCompare(int i, int j, int depth) {
+        if (i == j) {
+            return 0;
         }
-	if (this.mySpace.length < 2) { return;}
-	rand = new Random();
-        QuickSort(0, this.mySpace.length);
+
+        int spaceLength = mySpace.length;
+        int offset = depth;
+        while (true) {
+            if (i + offset >= spaceLength) {
+                return -1;
+            }
+            if (j + offset >= spaceLength) {
+                return 1;
+            }
+            if (this.mySpace[i + offset] > this.mySpace[j + offset]) {
+                return 1;
+            }
+            if (this.mySpace[i + offset] < this.mySpace[j + offset]) {
+                return -1;
+            }
+            offset++;
+        }
+    }
+
+    public void setSpace(byte[] space) {
+
+        mySpace = space;
+        if (mySpace.length > 0) spaceReady = true;
+
+        suffixArray = new int[space.length];
+
+        for (int i = 0; i < space.length; i++) {
+            suffixArray[i] = i;
+        }
+        if (this.mySpace.length < 2) {
+            return;
+        }
+        rand = new Random();
+        MultiKeyQuickSort(0, this.mySpace.length, 0);
     }
 
     public void setTarget(byte [] target) {
