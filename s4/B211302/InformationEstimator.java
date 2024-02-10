@@ -70,7 +70,8 @@ public class InformationEstimator implements InformationEstimatorInterface {
             return Double.MAX_VALUE;
         }
         boolean [] partition = new boolean[myTarget.length+1];
-        int np = 1<<(myTarget.length-1);
+	int np;
+        np = 1<<(myTarget.length-1);
         double value = Double.MAX_VALUE; // value = mininimum of each "value1".
 	if(debugMode) { showVariables(); }
         if(debugMode) { System.out.printf("np=%d length=%d ", np, +myTarget.length); }
