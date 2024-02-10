@@ -11,8 +11,10 @@ public class Frequencer implements FrequencerInterface{
     boolean targetReady = false;
     boolean spaceReady = false;
 
-    int []  suffixArray; 
-
+    int []  suffixArray;
+    Random rand;
+    
+    //suffixArrayの値を表示する
     private void printSuffixArray() {
         if(spaceReady) {
             for(int i=0; i< mySpace.length; i++) {
@@ -25,14 +27,52 @@ public class Frequencer implements FrequencerInterface{
             }
         }
     }
-
+    
+    //比較
     private int suffixCompare(int i, int j) {
-        String str1 = Arrays.toString(mySpace);
-        String suffix_i = str1.substring(i,str1.length()-1);
-        String suffix_j = str1.substring(j,str1.length()-1);
-        if (suffix_i.compareTo(suffix_j) < 0) return 1;
-        if (suffix_i.compareTo(suffix_j) > 0) return -1;
-        return 0;
+	if (i==j){return 0;}
+
+	int spaceLength = mySpace.length;
+	int offset = 0;
+	while (true){
+	    if(this.mySpace[i+offset] > this.mySpace[j+offset]){ return 1;}
+	    if(this.mySpace[i+offset] < this.mySpace[j+offset]){ return -1;}
+	    ++offset;
+	    if(i+offset >= spaceLength){return -1;}
+	    if(j+offset >= spaceLength){return 1;}
+	}
+    }
+
+    private void Swap(int i, int j) {
+	int tmp = this.suffixArray[i];
+	this.suffixArray[i] = this.suffixArray[j];
+	this.suffixArray[j] = tmp;
+    }
+	    
+    private void QuickSort(int left, int right) {
+	if (right-left <= 2)
+	{
+	    if (suffixCompare(this.suffixArray[left], this.suffixArray[left + 1]) == 1) { 
+		Swap(left, left + 1); 
+	    }
+	    return;
+	}
+
+	Swap(left, rand.nextInt(right - left) + left);
+	
+	int i=left;
+	for (int j = left + 1; j < right; ++j)
+	{
+	    if (suffixCompare(this.suffixArray[j], this.suffixArray[left]) == -1)
+	    {
+		++i;
+		Swap(i, j);
+	    }
+	}
+	Swap(left, i);
+	if (i - left > 1) { QuickSort(left, i); }
+	if (right - i > 1) { QuickSort(i, right); }
+	
     }
 
     public void setSpace(byte []space) {
@@ -44,20 +84,9 @@ public class Frequencer implements FrequencerInterface{
         for(int i = 0; i< space.length; i++) {
             suffixArray[i] = i; 
         }
-
-        int tmp;
-        String str1 = Arrays.toString(mySpace);
-        for(int i=0;i<mySpace.length-1;i++){
-            for(int j=i+1;j<mySpace.length-1;j++){
-                String mySpace_i = str1.substring(i,str1.length()-1);
-                String mySpace_j = str1.substring(j,str1.length()-1);
-                if(mySpace_i.compareTo(mySpace_j) > 0){
-                    tmp = suffixArray[i];
-                    suffixArray[i] = suffixArray[j];
-                    suffixArray[j] = tmp;
-                }
-            }
-        }
+	if (this.mySpace.length < 2) { return;}
+	rand = new Random();
+        QuickSort(0, this.mySpace.length);
     }
 
     public void setTarget(byte [] target) {
@@ -76,34 +105,51 @@ public class Frequencer implements FrequencerInterface{
         return last1 - first;
     }
 
-    private int targetCompare(int i, int j, int k) {
-        String str1 = Arrays.toString(mySpace);
-        String str2 = Arrays.toString(myTarget);
-        String suffix_i = str1.substring(i,str1.length()-1);
-        String target_j_k = str2.substring(j,k);
-        if (suffix_i.compareTo(target_j_k) < 0) return 1;
-        if (suffix_i.compareTo(target_j_k) > 0) return -1;
+    private int targetCompare(int i, int j, int k) {	
+	for (int offset=0; offset < k-j; ++offset)
+	{
+	    if (i+m >= this.mySpace.length) { return -1; }
+	    if (this.mySpace[i+offset] > this.myTarget[j+offset]) { return 1; }
+	    if (this.mySpace[i+offset] < this.myTarget[j+offset]) { return -1; }
+	}
         return 0;
     }
 
 
-    private int subByteStartIndex(int start, int end) {;
-        String str1 = Arrays.toString(mySpace);
-        String str2 = Arrays.toString(myTarget);
-        String target_start_end = str2.substring(start,end);
+    private int subByteStartIndex(int start, int end) {
+	int left = -1;
+        int right = suffixArray.length;
+	int mid;
 
-        int result = str1.indexOf(target_start_end);
-        return result;
+        while(right - left > 1) {
+            mid = (left + right) / 2;
+            if(targetCompare(suffixArray[mid], start, end) >= 0) {
+                right = mid;
+            }
+            else {
+                left = mid;
+            }
+        }
+
+        return right;
     }
 
     private int subByteEndIndex(int start, int end) {
-                String str1 = Arrays.toString(mySpace);
-        String str2 = Arrays.toString(myTarget);
-        String target_start_end = str2.substring(start,end);
+	int left = -1;
+        int right = suffixArray.length;
+	int mid;
 
-        int result = str1.lastIndexOf(target_start_end);
-        return result;
+        while(right - left > 1) {
+            mid = (left + right) / 2;
+            if(targetCompare(suffixArray[mid], start, end) > 0) {
+                right = mid;
+            }
+            else {
+                left = mid;
+            }
+        }
 
+        return right;
     }
 
     public static void main(String[] args) {
